@@ -1,8 +1,10 @@
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class CustomArrayList<T> {
     private T[] customArray;
     private int arrayLength;
+    private static final int STANDARD_ADDED_SIZE = 5;
 
     @SuppressWarnings("unchecked")
     public CustomArrayList() {
@@ -19,7 +21,7 @@ public class CustomArrayList<T> {
 
     public void add(T object) { // добавляем элемент в список
         if (arrayLength >= customArray.length)
-            arrayExpansion();
+            arrayExpansion(STANDARD_ADDED_SIZE);
 
         customArray[arrayLength++] = object;
     }
@@ -64,6 +66,8 @@ public class CustomArrayList<T> {
     }
 
     public void addAll(Collection<? extends T> collection) {  // переписать переданную коллекцию
+        arrayExpansion(collection.size());
+
         for (T object : collection)
             add(object);
     }
@@ -94,8 +98,8 @@ public class CustomArrayList<T> {
         }
     }
 
-    private void arrayExpansion() { // расширение списка при необходимости
-        T[] doubleArray = (T[]) new Object[customArray.length + 5];
+    private void arrayExpansion(int addedSize) { // расширение списка при необходимости
+        T[] doubleArray = (T[]) new Object[customArray.length + addedSize];
         System.arraycopy(customArray, 0, doubleArray, 0, customArray.length);
         customArray = doubleArray;
     }
